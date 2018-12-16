@@ -101,7 +101,7 @@
     <br>
 
     <section id="content" class="container" style="padding: 0 24px 24px">
-      <div class="columns">
+      <div id="search" class="columns">
         <b-field class="column is-half" label="Search">
           <b-input v-model="search.title" placeholder="Eg. Big Hero 6" />
         </b-field>
@@ -120,6 +120,7 @@
             <option value="Action">Action</option>
             <option value="Adventure">Adventure</option>
             <option value="Thriller">Thriller</option>
+            <option value="Horror">Horror</option>
             <option value="Drama">Drama</option>
           </b-select>
         </b-field>
@@ -135,7 +136,7 @@
         </b-field>
       </div>
 
-      <b-table :data="filter" :hoverable="true" :loading="loading" :mobile-cards="true" :striped="true">
+      <b-table class="my-table" :data="filter" :hoverable="true" :loading="loading" :mobile-cards="true" :striped="true">
         <template slot-scope="props">
           <b-table-column field="format" label="Format" width="20" centered sortable>
             <span class="tag is-info is-rounded">
@@ -232,5 +233,18 @@
     }
   });
 </script>
+
+<style>
+  @media only screen and (max-width: 768px) {
+    .my-table {
+      height: auto !important;
+    }
+  }
+
+  .my-table {
+    height: 68vh;
+    overflow-y: auto
+  }
+</style>
 
 </html>
