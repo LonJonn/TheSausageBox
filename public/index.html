@@ -136,7 +136,7 @@
         </b-field>
       </div>
 
-      <b-table class="my-table" :data="filter" :hoverable="true" :loading="loading" :mobile-cards="true" :striped="true">
+      <b-table :data="filter" :hoverable="true" :loading="loading" :mobile-cards="true" :striped="true">
         <template slot-scope="props">
           <b-table-column field="format" label="Format" width="20" centered sortable>
             <span class="tag is-info is-rounded">
@@ -233,18 +233,5 @@
     }
   });
 </script>
-
-<style>
-  @media only screen and (max-width: 768px) {
-    .my-table {
-      height: auto !important;
-    }
-  }
-
-  .my-table {
-    height: 68vh;
-    overflow-y: auto
-  }
-</style>
 
 </html>
