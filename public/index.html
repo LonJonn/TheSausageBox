@@ -6,13 +6,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>The Sausage Box</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
-  <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+  <link rel="icon" type="image/png" sizes="192x192" href="./images/favicon.png">
   <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/buefy@0.7.1/dist/buefy.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.32.4/dist/sweetalert2.all.min.js"></script>
   <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buefy@0.7.1/dist/buefy.min.css">
 </head>
 
 <body>
@@ -20,7 +22,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="/">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+          <img src="./images/Logo.png" height="28">
         </a>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarData">
@@ -39,29 +41,36 @@
             Docs
           </a>
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
+            <a class="navhide navbar-link">
+              Sites
+            </a>
+            <div class="navbar-dropdown">
+              <a target="_blank" href="https://ololo.to/" class="navbar-item">
+                Ololo
+              </a>
+              <a target="_blank" href="https://www.moviesjoy.net/" class="navbar-item">
+                MoviesJoy
+              </a>
+              <a target="_blank" href="https://azmovies.xyz/" class="navbar-item">
+                AZMovies
+              </a>
+              <a target="_blank" href="https://github.com/Igglybuff/awesome-piracy#open-directories" class="navbar-item">
+                GitHub List
+              </a>
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navhide navbar-link">
               More
             </a>
             <div class="navbar-dropdown">
-              <a href="https://ololo.to/" class="navbar-item">
-                Ololo
-              </a>
-              <a href="https://www.moviesjoy.net/" class="navbar-item">
-                MoviesJoy
-              </a>
-              <a href="https://azmovies.xyz/" class="navbar-item">
-                AZMovies
-              </a>
-              <a href="https://github.com/Igglybuff/awesome-piracy#open-directories" class="navbar-item">
-                GitHub List
-              </a>
-              <hr class="navbar-divider">
-              <a class="navbar-item">
+              <a class="about navbar-item">
                 About
               </a>
-              <a class="navbar-item">
+              <a target="_blank" href="https://github.com/LonJonn/TheSausageBox/issues" class="navbar-item">
                 Report an issue
               </a>
+              <hr class="navbar-divider">
               <span class="navbar-item">
                 Version 0.7.2
               </span>
@@ -181,57 +190,8 @@
       </b-table>
     </section>
   </div>
+
+  <script src="index.js"></script>
 </body>
-
-<script>
-  $(document).ready(function () {
-    $(".navbar-burger").click(function () {
-      $(".navbar-burger").toggleClass("is-active");
-      $(".navbar-menu").toggleClass("is-active");
-    });
-  });
-
-  var app = new Vue({
-    el: '#vue-app',
-    data() {
-      return {
-        loading: true,
-        movies: [],
-        search: {
-          title: "",
-          genre: "Any",
-          quality: "Any"
-        }
-      }
-    },
-    mounted() {
-      axios.get("/api").then(response => {
-        this.movies = response.data
-        this.loading = false
-      })
-    },
-    computed: {
-      filter: function () {
-        var name_re = new RegExp(this.search.title, 'i')
-        var filtered = []
-        for (i in this.movies) {
-          if (this.movies[i].title.match(name_re)
-            && (this.movies[i].genre.includes(this.search.genre) || this.search.genre === "Any")
-            && (this.movies[i].quality.includes(this.search.quality) || this.search.quality === "Any")) {
-            filtered.push(this.movies[i])
-          }
-        }
-        return filtered
-      }
-    },
-    filters: {
-      substring: function (value) {
-        if (!value) return ''
-        value = value.toString()
-        return value.substring(0, value.length - 4)
-      }
-    }
-  });
-</script>
 
 </html>
