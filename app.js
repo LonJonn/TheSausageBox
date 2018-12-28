@@ -6,6 +6,7 @@ const videoDuration = require("get-video-duration")
 const videoResolution = require("get-video-dimensions")
 const moment = require("moment")
 const momentDurFor = require("moment-duration-format")
+const folderSize = require("get-folder-size")
 momentDurFor(moment)
 
 app.use(cors());
@@ -33,6 +34,17 @@ app.get("/api/", async (req, res) => {
     }
   }))
   res.send(movies)
+})
+
+app.get("/api/info", (req, res) => {
+  folderSize("./Movies", (error, size) => {
+    if (error) res.send(error);
+    data = {
+      size: (size / 1024 / 1024 / 1024).toFixed(1),
+      percentage: (size / 1024 / 1024 / 1024 / 32 * 100).toFixed(0)
+    }
+    res.send(data)
+  })
 })
 
 const server = app.listen(3000, () => {

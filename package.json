@@ -6,6 +6,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "get-folder-size": "^2.0.0",
     "get-video-dimensions": "^1.0.0",
     "get-video-duration": "^1.0.2",
     "moment": "^2.23.0",

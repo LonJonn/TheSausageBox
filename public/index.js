@@ -56,12 +56,5 @@ var app = new Vue({
       }
       return filtered
     }
-  },
-  filters: {
-    substring: function (value) {
-      if (!value) return ''
-      value = value.toString()
-      return value.substring(0, value.length - 4)
-    }
   }
 });

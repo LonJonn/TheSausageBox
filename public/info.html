@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <div id="vue-app">
+  <div id="vue-info">
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="/">
@@ -96,12 +96,10 @@
     <section id="header" class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">
-            The Sausage Box! 🌭
-          </h1>
+          <h1 class="title">What's on the Sausage Box?! 🤔</h1>
           <h2 class="subtitle">
-            <p>A movie database for the fam,</p>
-            <p>full of HD flicks!</p>
+            <p>Here lies the info you be requesting!</p>
+            <br>
           </h2>
         </div>
       </div>
@@ -109,89 +107,40 @@
 
     <br>
 
-    <section id="content" class="container" style="padding: 0 24px 24px">
-      <div id="search" class="columns">
-        <b-field class="column is-half" label="Search">
-          <b-input v-model="search.title" placeholder="Eg. Big Hero 6" />
-        </b-field>
-        <b-field class="column" label="Quality">
-          <b-select v-model="search.quality">
-            <option value="Any">Any</option>
-            <option value="480p">480p</option>
-            <option value="720p">720p</option>
-            <option value="1080p">1080p</option>
-          </b-select>
-        </b-field>
-        <b-field class="column" label="Genre">
-          <b-select v-model="search.genre">
-            <option value="Any">Any</option>
-            <option value="Animation">Animation</option>
-            <option value="Action">Action</option>
-            <option value="Adventure">Adventure</option>
-            <option value="Thriller">Thriller</option>
-            <option value="Horror">Horror</option>
-            <option value="Drama">Drama</option>
-          </b-select>
-        </b-field>
-        <b-field class="column" label="Reset">
-          <a @click="function() {
-            search.genre = 'Any';
-            search.quality = 'Any';
-            search.title = '';
-          }"
-            class="button is-danger">
-            Clear
-          </a>
-        </b-field>
+    <section id="content" class="container" style="padding: 0 24px 24px; width: 60%">
+      <h1 class="title">Used</h1>
+      <h2 class="subtitle">{{ info.size }} GB out of 32 GB</h2>
+      <br>
+      <h1 class="title">Percentage</h1>
+      <div class="columns">
+        <div class="column is-four-fifths">
+          <span v-if="info.percentage >= 80">
+            <progress class="progress is-large is-danger" :value=info.percentage max="100">
+          </span>
+          <span v-else-if="info.percentage >= 60">
+            <progress class="progress is-large is-warning" :value=info.percentage max="100">
+          </span>
+          <span v-else>
+            <progress class="progress is-large is-success" :value=info.percentage max="100">
+          </span>
+        </div>
+        <div class="column">
+          <h1 class="subtitle">{{ info.percentage }}%</h1>
+        </div>
       </div>
+    </section>
 
-      <b-table :data="filter" :hoverable="true" :loading="loading" :mobile-cards="true" :striped="true">
-        <template slot-scope="props">
-          <b-table-column field="format" label="Format" width="20" centered sortable>
-            <span class="tag is-info is-rounded">
-              {{ props.row.format }}
-            </span>
-          </b-table-column>
-          <b-table-column field="title" label="Title" sortable>
-            <b>{{ props.row.title }}</b>
-          </b-table-column>
-          <b-table-column field="quality" label="Quality" centered sortable>
-            <span class="tag is-info is-warning">
-              {{ props.row.quality }}
-            </span>
-          </b-table-column>
-          <b-table-column field="year" label="Year" centered sortable>
-            {{ props.row.year }}
-          </b-table-column>
-          <b-table-column field="duration" label="Duration" centered sortable>
-            {{ props.row.duration }}
-          </b-table-column>
-          <b-table-column field="genre" label="Genre" centered sortable>
-            {{ props.row.genre[0] }}, {{ props.row.genre[1] }}
-          </b-table-column>
-          <b-table-column field="filename" label="Link" centered>
-            <a :href="props.row.filename" class="button is-success">
-              Play
-            </a>
-          </b-table-column>
-        </template>
+  </div>
 
-        <template slot="empty">
-          <section class="section">
-            <div class="content has-text-grey has-text-centered">
-              <p>
-                <b-icon icon="emoticon-sad" size="is-large">
-                </b-icon>
-              </p>
-              <p>Nothing here.</p>
-            </div>
-          </section>
-        </template>
-      </b-table>
+  <div id="vue-app">
+    <section id="content" class="container" style="padding: 0 24px 24px; width: 60%">
+      {{ movies[1].title }}
     </section>
   </div>
 
+
   <script src="index.js"></script>
+  <script src="info.js"></script>
 </body>
 
 </html>
