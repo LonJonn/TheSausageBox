@@ -1,4 +1,5 @@
 const express = require("express")
+const bodyParser = require("body-parser")
 const cors = require("cors")
 const fs = require("fs")
 const app = express();
@@ -7,9 +8,12 @@ const videoResolution = require("get-video-dimensions")
 const moment = require("moment")
 const momentDurFor = require("moment-duration-format")
 const folderSize = require("get-folder-size")
+const videoDownloader = require("youtube-dl")
+const sanitise = require("sanitize-filename")
 momentDurFor(moment)
 
 app.use(cors());
+app.use(bodyParser.json());
 app.use(express.static("Movies"))
 app.use(express.static("public"))
 
@@ -29,7 +33,7 @@ app.get("/api/", async (req, res) => {
         genre: movie.split("_")[1].split("-").sort(),
         year: movie.split("_")[2].split(".")[0],
         quality: quality.toString() + "p",
-        size: Number((size / 1000 / 1000).toFixed(1)),
+        size: Number((size / 1024 / 1024).toFixed(0)),
         duration: moment.duration(durationSec, "seconds").format("H [hour] mm [min]"),
         format: movie.split("_")[2].split(".")[1],
         filename: movie
@@ -38,7 +42,7 @@ app.get("/api/", async (req, res) => {
   res.send(movies)
 })
 
-app.get("/api/info", (req, res) => {
+app.get("/api/info/", (req, res) => {
   folderSize("./Movies", (error, size) => {
     if (error) res.send(error);
     data = {
@@ -59,6 +63,25 @@ app.delete("/api/delete/:file", async (req, res) => {
   });
 });
 
+app.post("/api/add/", (req, res) => {
+  try {
+    const movie = videoDownloader(req.body.link)
+    const filename = sanitise(`${req.body.title}_${req.body.genres}_${req.body.year}.mp4`)
+
+    movie.on("info", info => {
+      console.log("Download Starting...");
+      movie.pipe(fs.createWriteStream("./Movies/"+filename))
+
+      movie.on("end", () => {
+        res.send("finished");
+      })
+    }) 
+  } catch (error) {
+    res.status(400).send("Invalid Link!")
+  }
+})
+
 const server = app.listen(3000, () => {
   console.log("Running on port 3000...");
 })
+

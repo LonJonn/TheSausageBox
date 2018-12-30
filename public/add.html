@@ -93,9 +93,9 @@
     <section id="header" class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">What's on the Sausage Box?! 🤔</h1>
+          <h1 class="title">Something to Add? 😊</h1>
           <h2 class="subtitle">
-            <p>Here lies the info you be requesting!</p>
+            <p>You're in the right palce!</p>
             <br>
           </h2>
         </div>
@@ -104,68 +104,9 @@
 
     <br>
 
-    <section id="content" class="container" style="padding: 0 24px 24px; width: 70%">
-      <h1 class="title">Used</h1>
-      <h2 class="subtitle">{{ info.size }} GB out of 32 GB</h2>
-      <div class="columns">
-        <div class="column is-11">
-          <span v-if="info.percentage >= 80">
-            <progress class="progress is-large is-danger" :value=info.percentage max="100">
-          </span>
-          <span v-else-if="info.percentage >= 60">
-            <progress class="progress is-large is-warning" :value=info.percentage max="100">
-          </span>
-          <span v-else>
-            <progress class="progress is-large is-success" :value=info.percentage max="100">
-          </span>
-        </div>
-        <div class="column">
-          <h1 class="subtitle">{{ info.percentage }}%</h1>
-        </div>
-      </div>
-    </section>
+    <section id="content" class="container" style="padding: 0 24px 24px">
+      <h1 class="title">Add a Movie</h1>
 
-    <br>
-
-    <section id="content" class="container" style="padding: 0 24px 24px; width: 70%">
-      <h1 class="title">Delete</h1>
-      <b-table :data="movies" :hoverable="true" :loading="loading" :mobile-cards="true" :striped="true">
-        <template slot-scope="props">
-          <b-table-column field="format" label="Format" width="20" centered sortable>
-            <span class="tag is-info is-rounded">
-              {{ props.row.format }}
-            </span>
-          </b-table-column>
-          <b-table-column field="title" label="Title" sortable>
-            <b>{{ props.row.title }}</b>
-          </b-table-column>
-          <b-table-column field="quality" label="Quality" centered sortable>
-            <span class="tag is-info is-warning">
-              {{ props.row.quality }}
-            </span>
-          </b-table-column>
-          <b-table-column field="size" label="Size" centered sortable>
-            {{ props.row.size }} MB
-          </b-table-column>
-          <b-table-column field="filename" label="Action" centered>
-            <a @click="deleteFile(props.row.filename)" class="button is-danger">
-              Delete
-            </a>
-          </b-table-column>
-        </template>
-
-        <template slot="empty">
-          <section class="section">
-            <div class="content has-text-grey has-text-centered">
-              <p>
-                <b-icon icon="emoticon-sad" size="is-large">
-                </b-icon>
-              </p>
-              <p>Nothing here.</p>
-            </div>
-          </section>
-        </template>
-      </b-table>
     </section>
   </div>
 
