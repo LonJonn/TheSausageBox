@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <div id="vue-info">
+  <div id="vue-app">
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="/">
@@ -36,9 +36,6 @@
         <div class="navbar-start">
           <a href="/" class="navbar-item">
             Home
-          </a>
-          <a href="info.html" class="navbar-item">
-            Info
           </a>
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navhide navbar-link">
@@ -110,8 +107,6 @@
     <section id="content" class="container" style="padding: 0 24px 24px; width: 60%">
       <h1 class="title">Used</h1>
       <h2 class="subtitle">{{ info.size }} GB out of 32 GB</h2>
-      <br>
-      <h1 class="title">Percentage</h1>
       <div class="columns">
         <div class="column is-four-fifths">
           <span v-if="info.percentage >= 80">
@@ -130,17 +125,51 @@
       </div>
     </section>
 
-  </div>
+    <br>
 
-  <div id="vue-app">
     <section id="content" class="container" style="padding: 0 24px 24px; width: 60%">
-      {{ movies[1].title }}
+      <h1 class="title">Delete</h1>
+      <b-table :data="movies" :hoverable="true" :loading="loading" :mobile-cards="true" :striped="true">
+        <template slot-scope="props">
+          <b-table-column field="format" label="Format" width="20" centered sortable>
+            <span class="tag is-info is-rounded">
+              {{ props.row.format }}
+            </span>
+          </b-table-column>
+          <b-table-column field="title" label="Title" centered sortable>
+            <b>{{ props.row.title }}</b>
+          </b-table-column>
+          <b-table-column field="quality" label="Quality" centered sortable>
+            <span class="tag is-info is-warning">
+              {{ props.row.quality }}
+            </span>
+          </b-table-column>
+          <b-table-column field="size" label="Size" centered sortable>
+            {{ props.row.size }} MB
+          </b-table-column>
+          <b-table-column field="filename" label="Action" centered>
+            <a @click="deleteFile(props.row.filename)" class="button is-danger">
+              Delete
+            </a>
+          </b-table-column>
+        </template>
+
+        <template slot="empty">
+          <section class="section">
+            <div class="content has-text-grey has-text-centered">
+              <p>
+                <b-icon icon="emoticon-sad" size="is-large">
+                </b-icon>
+              </p>
+              <p>Nothing here.</p>
+            </div>
+          </section>
+        </template>
+      </b-table>
     </section>
   </div>
 
-
   <script src="index.js"></script>
-  <script src="info.js"></script>
 </body>
 
 </html>

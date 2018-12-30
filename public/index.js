@@ -34,6 +34,10 @@ var app = new Vue({
         title: "",
         genre: "Any",
         quality: "Any"
+      },
+      info: {
+        size: 0,
+        percentage: 0
       }
     }
   },
@@ -41,7 +45,10 @@ var app = new Vue({
     axios.get("/api").then(response => {
       this.movies = response.data
       this.loading = false
-    })
+    });
+    axios.get("/api/info").then(response => {
+      this.info = response.data
+    });
   },
   computed: {
     filter: function () {
@@ -56,5 +63,39 @@ var app = new Vue({
       }
       return filtered
     }
-  }
+  },
+   methods: {
+     deleteFile(file) {
+       $this = this;
+       Swal({
+         title: "Are you sure?",
+         text: "You won't be able to revert this!",
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#e74c3c",
+         cancelButtonColor: "#3085d6",
+         confirmButtonText: "Yes, delete it!"
+       }).then(async function (result) {
+         if (result.value) {
+           $this.loading = true;
+           await axios.delete("/api/delete/" + file)
+           Swal({
+             title: "File Deleted!",
+             type: "success",
+             toast: true,
+             position: "top",
+             timer: 4000,
+             showConfirmButton: false
+           });
+           axios.get("/api").then(response => {
+             $this.movies = response.data
+             $this.loading = false
+           });
+           axios.get("/api/info").then(response => {
+             $this.info = response.data
+           });
+         }
+       });
+     }
+   }
 });
