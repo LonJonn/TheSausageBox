@@ -64,24 +64,27 @@ app.delete("/api/delete/:file", async (req, res) => {
 });
 
 app.post("/api/add/", (req, res) => {
-  try {
-    const movie = videoDownloader(req.body.link)
-    const filename = sanitise(`${req.body.title}_${req.body.genres}_${req.body.year}.mp4`)
+  const filename = sanitise(`${req.body.title}_${req.body.genres}_${req.body.year}.mp4`)
 
-    movie.on("info", info => {
-      console.log("Download Starting...");
-      movie.pipe(fs.createWriteStream("./Movies/"+filename))
+  videoDownloader(req.body.link, err => {
+    if (err) {
+      res.status(400).send("Invalid Link!");
+    } else {
+      const movie = videoDownloader(req.body.link);
+      
+      movie.on("info", info => {
+        console.log("Download Starting...");
+        movie.pipe(fs.createWriteStream("./Movies/" + filename))
 
-      movie.on("end", () => {
-        res.send("finished");
+        movie.on("end", () => {
+          res.send("Finished " + filename);
+        })
       })
-    }) 
-  } catch (error) {
-    res.status(400).send("Invalid Link!")
-  }
+    }
+  })
 })
 
-const server = app.listen(3000, () => {
+app.listen(3000, () => {
   console.log("Running on port 3000...");
 })
 
