@@ -72,11 +72,13 @@ app.post("/api/add/", (req, res) => {
     } else {
       const movie = videoDownloader(req.body.link);
       
-      movie.on("info", info => {
+      movie.on("info", () => {
         console.log("Download Starting...");
-        movie.pipe(fs.createWriteStream("./Movies/" + filename))
+        movie.pipe(fs.createWriteStream("./MoviesTemp/" + filename))
 
         movie.on("end", () => {
+          fs.renameSync("./MoviesTemp/" + filename, "./Movies/" + filename)
+          console.log("finished " + filename);
           res.send("Finished " + filename);
         })
       })

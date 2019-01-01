@@ -140,6 +140,19 @@ var app = new Vue({
            });
          }
        });
+     },
+     addMovie() {
+       Swal({
+         title: "Adding!...",
+         text: "The download has started and will be added to the home page when done!",
+         type: "success"
+       });
+       axios.post("/api/add", {
+         link: this.add.link,
+         title: this.add.title,
+         genres: this.add.chosenGenres[0]+"-"+this.add.chosenGenres[1],
+         year: this.add.year
+       })
      }
    }
 });

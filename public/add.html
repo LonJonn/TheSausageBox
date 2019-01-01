@@ -12,7 +12,6 @@
   <script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/buefy@0.7.1/dist/buefy.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vee-validate@latest/dist/vee-validate.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.32.4/dist/sweetalert2.all.min.js"></script>
   <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buefy@0.7.1/dist/buefy.min.css">
@@ -70,7 +69,7 @@
               </a>
               <hr class="navbar-divider">
               <span class="navbar-item">
-                Version 0.7.2
+                Version 0.8.0
               </span>
             </div>
           </div>
@@ -263,9 +262,8 @@
         <button disabled class="button is-primary">Add the Movie!</button>
       </div>
       <div v-else>
-        <button class="button is-primary">Add the Movie!</button>
+        <button @click="addMovie" class="button is-primary">Add the Movie!</button>
       </div>
-      {{ add.errors }}
     </section>
   </div>
 
