@@ -38,6 +38,15 @@ var app = new Vue({
       info: {
         size: 0,
         percentage: 0
+      },
+      add: {
+        genres: ["Action", "Adventure", "Animation", "Thriller", "Horror", "Drama"],
+        link: "",
+        title: "",
+        chosenGenres: [],
+        year: null,
+        passphrase: "",
+        errors: ["passphrase"]
       }
     }
   },
@@ -62,6 +71,41 @@ var app = new Vue({
         }
       }
       return filtered
+    },
+    getTitleSuccess: function() {
+      if (this.add.title) {
+        return "is-success"
+      } else {
+        return ""
+      }
+    },
+    getYearSuccess: function() {
+      if (this.add.year) {
+        return "is-success"
+      } else {
+        return ""
+      }
+    },
+    getPassSuccess: function() {
+      if (this.add.passphrase == "Showtime") {
+        this.add.errors = this.add.errors.filter(item => item !== "passphrase")
+        return "is-success"
+      } else if (this.add.passphrase) {
+        this.add.errors.indexOf("passphrase") === -1 ? this.add.errors.push("passphrase") : null;
+        return "is-danger"
+      } else {
+        this.add.errors.indexOf("passphrase") === -1 ? this.add.errors.push("passphrase") : null;
+        return ""
+      }
+    },
+    getGenreSuccess: function() {
+      if (this.add.chosenGenres.length == 0) {
+        return ""
+      } else if (this.add.chosenGenres.length == 2) {
+        return "is-success"
+      } else {
+        return "is-danger"
+      }
     }
   },
    methods: {
