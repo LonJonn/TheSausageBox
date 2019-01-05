@@ -1,5 +1,4 @@
-/node_modules
-/Movies
-/MoviesTemp
-run.bat
+node_modules
+movies
+temp
 bin

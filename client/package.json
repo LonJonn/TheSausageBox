@@ -1,0 +1,67 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "start": "vue-cli-service serve --port 4001"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "buefy": "^0.7.1",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
+    "sweetalert2": "^7.33.1",
+    "vee-validate": "^2.1.5",
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.2.0",
+    "@vue/cli-plugin-eslint": "^3.2.0",
+    "@vue/cli-service": "^3.2.0",
+    "@vue/eslint-config-prettier": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-vue": "^5.0.0-0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:vue/essential",
+      "@vue/prettier",
+      "plugin:prettier/recommended"
+    ],
+    "rules": {
+      "prettier/prettier": "off",
+      "for-direction": "off",
+      "getter-return": "off",
+      "no-console": "off"
+    },
+    "parserOptions": {
+      "parser": "babel-eslint",
+      "ecmaVersion": 2017
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
