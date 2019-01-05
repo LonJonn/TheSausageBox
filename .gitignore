@@ -1,4 +1,4 @@
 node_modules
-movies
-temp
-bin
+.DS_store
+*.mp4
+ffprobe
