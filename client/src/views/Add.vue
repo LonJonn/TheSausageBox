@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BulmaHeader title="Something to Add? 😊" :subtitle="['You\'re in the right palce!']"/>
+    <BulmaHeader title="Something to Add? 😊" :subtitle="['You\'re in the right place!']"/>
 
     <section class="section">
       <div class="container column is-8">

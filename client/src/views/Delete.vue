@@ -8,7 +8,7 @@
     <section id="content" class="section">
       <div class="container column is-8">
         <h1 class="title">Used</h1>
-        <h2 class="subtitle">{{ storageInfo.size }} GB out of 32 GB</h2>
+        <h2 class="subtitle">{{ storageInfo.size }} GB out of {{ storageInfo.storageSize }} GB</h2>
         <div class="columns">
           <div class="column is-11">
             <span v-if="storageInfo.percentage >= 80">
@@ -96,7 +96,8 @@ export default {
       movies: [],
       storageInfo: {
         size: 0,
-        percentage: 0
+        percentage: 0,
+        storageSize: 0
       }
     };
   },
