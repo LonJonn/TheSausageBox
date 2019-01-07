@@ -71,23 +71,6 @@
           </div>
         </div>
 
-        <b-field
-          label="Secret Password:"
-          :type="{'is-danger': errors.has('password')}"
-          :message="errors.first('password')"
-        >
-          <b-input
-            name="password"
-            v-validate="'required'"
-            v-model="add.password"
-            type="password"
-            placeholder="Open Sesame"
-            password-reveal
-            maxlength="25"
-            icon="lock"
-          ></b-input>
-        </b-field>
-
         <button
           @click="validateBeforeSubmit()"
           centered
@@ -115,8 +98,7 @@ export default {
         link: null,
         title: null,
         genres: [],
-        year: null,
-        password: null
+        year: null
       },
       yearRange: _.range(new Date().getFullYear(), 1949),
       genreOptions: [
@@ -133,11 +115,7 @@ export default {
   methods: {
     validateBeforeSubmit() {
       this.$validator.validateAll().then(result => {
-        if (
-          !result ||
-          this.add.genres.length != 2 ||
-          this.add.password != "Showtime"
-        ) {
+        if (!result || this.add.genres.length != 2) {
           this.$toast.open({
             message: "Form is not valid! Please check the fields.",
             type: "is-danger",
@@ -145,15 +123,16 @@ export default {
           });
           return;
         }
-        this.$toast.open({
-          message: "Searching for Movie! Please wait.",
-          type: "is-info",
-          position: "is-bottom"
-        });
         this.addMovie();
       });
     },
     async addMovie() {
+      swal({
+        title: "Adding!...",
+        text:
+          "The download has started and will be added to the home page when done!",
+        type: "info"
+      });
       try {
         await MoviesService.addMovie({
           link: this.add.link,
@@ -162,11 +141,11 @@ export default {
           year: this.add.year
         });
         swal({
-          title: "Adding!...",
-          text:
-            "The download has started and will be added to the home page when done!",
+          title: "Finished!",
+          text: "Download finished and added to the home page!",
           type: "success"
         });
+        this.$router.push("/");
       } catch (error) {
         swal({
           title: "Uh Oh!",

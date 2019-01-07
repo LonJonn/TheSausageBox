@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
-const videoDuration = require("get-video-duration");
-const videoResolution = require("get-video-dimensions");
+const path = require("path");
+const ffprobe = require("ffprobe");
+const ffprobeStatic = require("ffprobe-static");
 const moment = require("moment");
 const momentDurFor = require("moment-duration-format");
 const folderSize = require("get-folder-size");
@@ -10,23 +11,23 @@ const videoDownloader = require("youtube-dl");
 const sanitise = require("sanitize-filename");
 momentDurFor(moment);
 
-const moviesPath = "./static/movies/";
-const tempPath = "./static/temp/";
+const moviesPath = path.join(__dirname, "../static/movies/");
+const tempPath = path.join(__dirname, "../static/temp/");
 
 router.get("/", async (req, res) => {
   const movies = await Promise.all(
     fs
-      .readdirSync("./static/movies")
+      .readdirSync(moviesPath)
       .filter(file => !file.startsWith("."))
       .map(async movie => {
-        const durationSec = await videoDuration.getVideoDurationInSeconds(
-          moviesPath + movie
-        );
-        const res = await videoResolution(moviesPath + movie);
-        let quality = res.height;
-        let size = fs.statSync(moviesPath + movie).size;
-        if (res.height > 480) quality = 720;
-        if (res.height > 720 && res.width != 1280) quality = 1080;
+        const metadata = (await ffprobe(path.join(moviesPath, movie), {
+          path: ffprobeStatic.path
+        })).streams[0];
+        const durationSec = Number(metadata.duration).toFixed(0);
+        let quality = metadata.height;
+        if (metadata.height > 480) quality = 720;
+        if (metadata.height > 720 && metadata.width != 1280) quality = 1080;
+        let size = fs.statSync(path.join(moviesPath, movie)).size;
 
         return {
           title: movie.split("_")[0],
@@ -38,7 +39,7 @@ router.get("/", async (req, res) => {
           quality: quality.toString() + "p",
           size: Number((size / 1024 / 1024).toFixed(0)),
           duration: moment
-            .duration(durationSec, "seconds")
+            .duration(Number(durationSec), "seconds")
             .format("H [hour] mm [min]"),
           format: movie.split("_")[2].split(".")[1],
           filename: movie
@@ -75,22 +76,22 @@ router.post("/", (req, res) => {
     `${req.body.title}_${req.body.genres}_${req.body.year}.mp4`
   );
 
-  videoDownloader(req.body.link, err => {
-    if (err) {
-      res.status(400).end();
-    } else {
-      res.end();
-      const movie = videoDownloader(req.body.link);
-
-      movie.on("info", () => {
-        movie.pipe(fs.createWriteStream(tempPath + filename));
-
-        movie.on("end", () => {
-          fs.renameSync(tempPath + filename, moviesPath + filename);
-        });
-      });
+  videoDownloader.exec(
+    req.body.link,
+    ["-o", path.join(tempPath, filename)],
+    {},
+    err => {
+      if (err) {
+        res.status(400).end();
+      } else {
+        fs.renameSync(
+          path.join(tempPath, filename),
+          path.join(moviesPath, filename)
+        );
+        res.end();
+      }
     }
-  });
+  );
 });
 
 module.exports = router;

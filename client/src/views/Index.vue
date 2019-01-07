@@ -12,15 +12,6 @@
           <b-field class="column is-7" label="Search">
             <b-input v-model="search.title" placeholder="Eg. Big Hero 6" icon="magnify"/>
           </b-field>
-          <!-- <b-field class="column" label="Quality">
-            <b-select expanded v-model="search.quality">
-              <option
-                v-for="quality in qualityOptions"
-                v-bind:value="quality"
-                v-bind:key="quality"
-              >{{ quality }}</option>
-            </b-select>
-          </b-field>-->
           <b-field class="column" label="Quality">
             <b-dropdown class="dropdown-select" v-model="search.quality">
               <button class="select button" slot="trigger">{{ search.quality }}</button>
@@ -74,7 +65,7 @@
             >{{ props.row.genre[0] }}, {{ props.row.genre[1] }}</b-table-column>
             <b-table-column field="filename" label="Link" centered>
               <a
-                :href="'http://localhost:4001/movies/'+props.row.filename"
+                :href="'http://localhost:4000/movies/'+props.row.filename"
                 class="button is-success"
               >Play</a>
             </b-table-column>
