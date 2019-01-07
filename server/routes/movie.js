@@ -78,7 +78,7 @@ router.post("/", (req, res) => {
 
   videoDownloader.exec(
     req.body.link,
-    ["-o", path.join(tempPath, filename)],
+    ["-o", path.join(tempPath, filename), "-f", "22"],
     {},
     err => {
       if (err) {
